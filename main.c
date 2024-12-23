@@ -31,6 +31,7 @@
     THIS SOFTWARE.
 */
 #include "mcc_generated_files/system/system.h"
+#include "mcc_generated_files/timer/delay.h"
 
 /*
     Main application
@@ -39,25 +40,25 @@
 /**
  * Transfers data to a MAX7219/MAX7221 register.
  * 
- * @param address The register to load data into
- * @param value   Value to store in the register
+ * @param address Register address to store into
+ * @param value   Register data to store
  */
 void max72xx_Write(uint8_t address, uint8_t value) {
 
-  // Ensure LOAD/CS is LOW
-    IO_PC3_SetLow();
+  // max72xx starts with select pin low
+  IO_PC3_SetLow();
 
-  // Send the register address
+  // send register address
   SPI0_ByteWrite(address);
 
-  // Send the value
+  // send register value
   while( !SPI0_IsTxReady() );
   SPI0_ByteWrite(value);
 
   while( !SPI0_IsTxReady() );
   
-  // Tell chip to load in data
-    IO_PC3_SetHigh();
+  // max72xx latches data on rising edge
+  IO_PC3_SetHigh();
 }
 
 int main(void)
@@ -66,11 +67,9 @@ int main(void)
     
     SPI0_Open(0);
 
-  // Run test
-  // All LED segments should light up
+  // Run test: all LED segments should light up for 100 milliseconds
   max72xx_Write(0x0F, 0x01);
-  
-  // and then all LED segments should turn off
+  DELAY_milliseconds(100);
   max72xx_Write(0x0F, 0x00);
   
   // Enable BCD code B for almost all digits
@@ -84,7 +83,6 @@ int main(void)
     
     while(1)
     {
-        uint8_t B1 = 0;
         for( uint8_t B8 = 0; B8 < 10; B8++ ) {
             for( uint8_t B7 = 0; B7 < 10; B7++ ) {
                 for( uint8_t B6 = 0; B6 < 10; B6++ ) {

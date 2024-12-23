@@ -51,10 +51,10 @@ int8_t AC0_Initialize(void)
 ISR(AC0_AC_vect)
 {
 	/* Insert your AC interrupt handling code here */
-    if( AC0.STATUS & AC_STATE_bm)
-        IO_PA0_SetHigh();
-    else
-        IO_PA0_SetLow();
+//    if( AC0.STATUS & AC_STATE_bm)
+//        IO_PA0_SetHigh();
+//    else
+//        IO_PA0_SetLow();
 
     /* The interrupt flag has to be cleared manually */
     AC0.STATUS = AC_CMP_bm;

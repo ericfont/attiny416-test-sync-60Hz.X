@@ -41,7 +41,6 @@ static void (*IO_PA6_InterruptHandler)(void);
 static void (*IO_PC1_InterruptHandler)(void);
 static void (*IO_PC2_InterruptHandler)(void);
 static void (*IO_PC0_InterruptHandler)(void);
-static void (*IO_PA0_InterruptHandler)(void);
 static void (*IO_PC3_InterruptHandler)(void);
 
 void PIN_MANAGER_Initialize()
@@ -53,12 +52,12 @@ void PIN_MANAGER_Initialize()
     PORTC.OUT = 0x8;
 
   /* DIR Registers Initialization */
-    PORTA.DIR = 0x61;
+    PORTA.DIR = 0x60;
     PORTB.DIR = 0x0;
     PORTC.DIR = 0xD;
 
   /* PINxCTRL registers Initialization */
-    PORTA.PIN0CTRL = 0x4;
+    PORTA.PIN0CTRL = 0x0;
     PORTA.PIN1CTRL = 0x0;
     PORTA.PIN2CTRL = 0x0;
     PORTA.PIN3CTRL = 0x0;
@@ -97,7 +96,6 @@ void PIN_MANAGER_Initialize()
     IO_PC1_SetInterruptHandler(IO_PC1_DefaultInterruptHandler);
     IO_PC2_SetInterruptHandler(IO_PC2_DefaultInterruptHandler);
     IO_PC0_SetInterruptHandler(IO_PC0_DefaultInterruptHandler);
-    IO_PA0_SetInterruptHandler(IO_PA0_DefaultInterruptHandler);
     IO_PC3_SetInterruptHandler(IO_PC3_DefaultInterruptHandler);
 }
 
@@ -193,19 +191,6 @@ void IO_PC0_DefaultInterruptHandler(void)
     // or set custom function using IO_PC0_SetInterruptHandler()
 }
 /**
-  Allows selecting an interrupt handler for IO_PA0 at application runtime
-*/
-void IO_PA0_SetInterruptHandler(void (* interruptHandler)(void)) 
-{
-    IO_PA0_InterruptHandler = interruptHandler;
-}
-
-void IO_PA0_DefaultInterruptHandler(void)
-{
-    // add your IO_PA0 interrupt custom code
-    // or set custom function using IO_PA0_SetInterruptHandler()
-}
-/**
   Allows selecting an interrupt handler for IO_PC3 at application runtime
 */
 void IO_PC3_SetInterruptHandler(void (* interruptHandler)(void)) 
@@ -232,10 +217,6 @@ ISR(PORTA_PORT_vect)
     if(VPORTA.INTFLAGS & PORT_INT6_bm)
     {
        IO_PA6_InterruptHandler(); 
-    }
-    if(VPORTA.INTFLAGS & PORT_INT0_bm)
-    {
-       IO_PA0_InterruptHandler(); 
     }
     /* Clear interrupt flags */
     VPORTA.INTFLAGS = 0xff;

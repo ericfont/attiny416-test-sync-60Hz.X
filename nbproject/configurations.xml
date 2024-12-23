@@ -234,6 +234,12 @@
         <property key="program-the-device-with-default-config-words" value="false"/>
         <property key="remove-unused-sections" value="true"/>
       </HI-TECH-LINK>
+      <Tool>
+        <property key="debugoptions.useswbreakpoints" value="true"/>
+        <property key="memories.programmemory.ranges" value="0-7ff"/>
+        <property key="programmerToGoFilePath"
+                  value="C:/Users/ericr/MPLABXProjects/attiny416-test-sync-60Hz.X/debug/default/attiny416-test-sync-60Hz_ptg"/>
+      </Tool>
       <XC8-CO>
         <property key="coverage-enable" value=""/>
         <property key="stack-guidance" value="false"/>
