@@ -78,10 +78,9 @@ int main(void)
   
   // Use lowest intensity
   max72xx_Write(0x0B, 0x07);
-  
-  
+    
   // Turn on chip
-//  max72xx_Write(0x0C, 0x01);
+  max72xx_Write(0x0C, 0x01);
     
     while(1)
     {
